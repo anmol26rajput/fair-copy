@@ -6,3 +6,5 @@ report.md
 coached.md
 .DS_Store
 .impeccable/
+.vercel
+.env*
