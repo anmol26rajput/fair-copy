@@ -1,0 +1,8 @@
+.claude/
+.hallmark/
+.vercel/
+__pycache__/
+report.md
+coached.md
+.DS_Store
+.impeccable/

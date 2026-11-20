@@ -1,0 +1,15 @@
+Sleep and Study Performance
+
+This chapter looks at how sleep habits affect the results of university students. I became interested in the topic after noticing that my own grades dropped during weeks when I stayed up late to finish assignments, so I wanted to see what the research says.
+
+Sleep plays a central role in the consolidation of newly acquired memories because the brain replays recent experiences during slow wave sleep and gradually transfers them from short term storage in the hippocampus to long term storage in the neocortex. That idea is the starting point for most of the work discussed below, and it explains why I think the timing of revision matters as much as its length.
+
+My survey of forty classmates found that most of them slept less than seven hours on exam weeks. Many said they felt more anxious and less able to concentrate, which is consistent with what I read, but my sample is small and drawn from a single course, so I treat the pattern as suggestive only.
+
+One widely cited finding is that "Students who sleep fewer than six hours before an examination consistently perform worse on tasks that require recalling facts, even when they have spent the same number of hours studying as their well rested peers." The result matters here because it separates the effect of sleep from the effect of effort.
+
+The benefits of regular sleep are not limited to memory, since attention and mood also get noticeably better after a full night of rest, and these gains tend to accumulate over several weeks rather than showing up after a single night. For a thesis about study habits this suggests that a steady routine is worth more than an occasional early night.
+
+[AI]Taken together, these studies suggest that universities could help students by offering earlier feedback deadlines and by encouraging steady sleep routines during assessment periods.[/AI]
+
+As Smith (2020) puts it, "A well rested learner is therefore better prepared to absorb new material, connect it with prior knowledge, and apply it to unfamiliar problems during assessment" (Smith, 2020). I return to this claim in the discussion chapter when I compare the survey results with the published evidence.

@@ -1,0 +1,21 @@
+// Run: node test.mjs  (checks the JS port against the Python tools' sample results)
+import { readFileSync } from "node:fs";
+import assert from "node:assert/strict";
+import { analyze, aiUsage, coach, disclosure, stripMarkers, V } from "./logic.js";
+const draft = readFileSync("../thesis-tools/samples/draft.txt", "utf8");
+const source = readFileSync("../thesis-tools/samples/source.txt", "utf8");
+const { total, passages } = analyze(draft, { "source.txt": source });
+assert.equal(total, 368);
+assert.equal(passages.reduce((n, p) => n + p.nwords, 0), 130);
+assert.deepEqual(passages.map(p => p.verdict), [V.QUOTE, V.CITE, V.CLOSE, V.OK]);
+const u = aiUsage("one two [AI]three four[/AI] five six seven eight nine ten");
+assert.equal(u.ai, 2); assert.equal(u.total, 10); assert.equal(u.pct, 20);
+assert.equal(aiUsage("[AI] x").balanced, false);
+assert.ok(!disclosure({ ...u, tool: "ChatGPT", purpose: "x" }).includes("—"));
+assert.ok(!stripMarkers(draft).includes("[AI]"));
+const p = passages[0].text;
+let c = coach(p, { main: "Short own words here", why: "It matters", cite: "Lee, 2021", prev: "" });
+assert.deepEqual(c.warnings, []); assert.ok(c.paragraph.includes("(Lee, 2021)."));
+c = coach(p, { main: p, why: "", cite: "", prev: "" });
+assert.equal(c.warnings.length, 2);
+console.log("ALL TESTS PASSED", passages.map(p => p.sim.toFixed(2)).join(" "));

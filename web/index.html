@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fair Copy: check your thesis before you submit</title>
+<meta name="description" content="Check your draft against your sources, measure your declared AI use and rewrite flagged passages in your own words, all in your browser.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js" defer></script>
+<script type="module" src="app.js"></script>
+</head>
+<body>
+<header class="bar">
+  <div class="container bar__in">
+    <a class="wordmark" href="#overlap" aria-label="Fair Copy, home">Fair Copy</a>
+    <p class="bar__note">Runs in your browser. Your files never leave this device.</p>
+  </div>
+</header>
+
+<main class="container">
+  <noscript><p class="notice">Fair Copy needs JavaScript to read your files. Nothing is ever uploaded.</p></noscript>
+
+  <section class="draft" aria-labelledby="draft-h">
+    <div class="draft__head">
+      <h1 id="draft-h">Your draft</h1>
+      <input class="file" id="draft-file" type="file" accept=".docx,.pdf,.txt,.md">
+      <label class="btn" for="draft-file">Open a file</label>
+    </div>
+    <p class="meta" id="draft-hint">Open a .docx, .pdf or .txt file, or paste your text below.</p>
+    <textarea id="draft" name="draft" aria-labelledby="draft-h" aria-describedby="draft-hint draft-status" spellcheck="false" placeholder="Paste your draft here"></textarea>
+    <div class="draft__foot">
+      <p id="draft-status" class="meta num" aria-live="polite">No draft yet</p>
+      <button type="button" class="btn" id="mark-ai">Mark selection as AI-assisted</button>
+    </div>
+  </section>
+
+  <nav class="tabs" aria-label="Checks">
+    <a href="#overlap" data-tab="overlap">Source overlap</a>
+    <a href="#ai" data-tab="ai">AI use</a>
+    <a href="#coach" data-tab="coach">Rewrite coach</a>
+  </nav>
+
+  <section class="panel" id="panel-overlap" aria-labelledby="h-overlap">
+    <div class="panel__head">
+      <h2 id="h-overlap">Check against your sources</h2>
+      <p>Add the PDFs and papers you used. Fair Copy marks every run of eight or more words that matches one of them and tells you what it needs.</p>
+    </div>
+    <div class="actions">
+      <input class="file" id="src-files" type="file" multiple accept=".docx,.pdf,.txt,.md">
+      <label class="btn" for="src-files">Add sources</label>
+      <button type="button" class="btn btn--primary" id="run-overlap">Check overlap</button>
+    </div>
+    <ul class="sources" id="src-list" aria-label="Sources added"></ul>
+    <div id="overlap-out" aria-live="polite">
+      <p class="empty">Add your draft and at least one source, then check overlap.</p>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-ai" aria-labelledby="h-ai" hidden>
+    <div class="panel__head">
+      <h2 id="h-ai">Measure your declared AI use</h2>
+      <p>Select AI-assisted text in your draft and press <em>Mark selection as AI-assisted</em>, or type [AI] and [/AI] around it yourself.</p>
+    </div>
+    <div class="fields">
+      <div class="field"><label for="allowance">Allowed by your university (%)</label><input id="allowance" name="allowance" type="number" inputmode="decimal" min="0" max="100" value="30"></div>
+      <div class="field"><label for="tool">Tool you used</label><input id="tool" name="tool" type="text" autocomplete="off" placeholder="ChatGPT"></div>
+      <div class="field field--wide"><label for="purpose">What you used it for</label><input id="purpose" name="purpose" type="text" autocomplete="off" placeholder="drafting the summary in chapter 2"></div>
+    </div>
+    <div id="ai-out" aria-live="polite"></div>
+  </section>
+
+  <section class="panel" id="panel-coach" aria-labelledby="h-coach" hidden>
+    <div class="panel__head">
+      <h2 id="h-coach">Rewrite a passage in your own words</h2>
+      <p>Answer four questions. Fair Copy joins your answers into a paragraph. It never writes the words for you.</p>
+    </div>
+    <div class="field field--wide">
+      <label for="coach-pick">Passage</label>
+      <select id="coach-pick" name="coach-pick"><option value="">Paste a passage</option></select>
+    </div>
+    <div class="field field--wide" id="coach-paste-wrap">
+      <label for="coach-paste">Passage to rewrite</label>
+      <textarea id="coach-paste" name="coach-paste" rows="3" placeholder="Paste the passage you want to rewrite"></textarea>
+    </div>
+    <blockquote class="quote" id="coach-quote" hidden></blockquote>
+    <form class="questions" id="coach-form">
+      <div class="field"><label for="q-main">What is the main point here, in your own words?</label><textarea id="q-main" name="main" rows="3"></textarea></div>
+      <div class="field"><label for="q-why">Why does it matter for your thesis?</label><textarea id="q-why" name="why" rows="3"></textarea></div>
+      <div class="field"><label for="q-cite">What source supports it?</label><input id="q-cite" name="cite" type="text" autocomplete="off" placeholder="Author, year"></div>
+      <div class="field"><label for="q-prev">How does it connect to the paragraph before?</label><textarea id="q-prev" name="prev" rows="3"></textarea></div>
+      <div class="actions"><button type="submit" class="btn btn--primary">Build my paragraph</button></div>
+    </form>
+    <div id="coach-out" aria-live="polite"></div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="container foot__in">
+    <p>Fair Copy points out problems. It does not rewrite your work or hide anything from a checker, and your university’s rules still apply.</p>
+    <p>It matches runs of eight words against the sources you add. Turnitin also checks the web and past papers, which Fair Copy cannot see.</p>
+  </div>
+</footer>
+</body>
+</html>
